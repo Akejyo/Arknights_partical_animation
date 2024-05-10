@@ -6,6 +6,7 @@ var particles = [];
 var img = new Image();
 const blockSize = 10;
 const randomRatio = 0.3;
+img.crossOrigin = "anonymous";
 img.src = "https://raw.githubusercontent.com/Akejyo/Arknights_partical_animation/main/avatar.jpg";
 
 img.onload = () => {
