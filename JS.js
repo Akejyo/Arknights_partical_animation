@@ -6,7 +6,7 @@ var particles = [];
 var img = new Image();
 const blockSize = 10;
 const randomRatio = 0.3;
-img.src = "avatar.jpg";
+img.src = "/avatar.jpg";
 
 img.onload = () => {
     canvas.width = img.width;
