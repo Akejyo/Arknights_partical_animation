@@ -4,7 +4,7 @@ var ctx = canvas.getContext("2d");
 var particles = [];
 
 var img = new Image();
-const resolution = 15;
+const blockSize = 10;
 const randomRatio = 0.3;
 img.crossOrigin = "anonymous";
 img.src = "https://raw.githubusercontent.com/Akejyo/imageForBlog/master/img/shan.jpg";
@@ -23,18 +23,18 @@ img.onload = () => {
     }
     ctx.putImageData(imageData, 0, 0);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    var blockX = Math.ceil(canvas.width / resolution);
-    var blockY = Math.ceil(canvas.height / resolution);
+    var blockX = Math.ceil(canvas.width / blockSize);
+    var blockY = Math.ceil(canvas.height / blockSize);
     for (var y = 0; y < blockY; y++) {
         for (var x = 0; x < blockX; x++) {
             var sum = 0;
-            for (var j = 0; j < resolution; j++) {
-                for (var i = 0; i < resolution; i++) {
-                    var index = ((y * resolution + j) * canvas.width + x * resolution + i) * 4;
+            for (var j = 0; j < blockSize; j++) {
+                for (var i = 0; i < blockSize; i++) {
+                    var index = ((y * blockSize + j) * canvas.width + x * blockSize + i) * 4;
                     sum += data[index];
                 }
             }
-            var average = Math.floor(sum / (resolution * resolution));
+            var average = Math.floor(sum / (blockSize * blockSize));
             if (average > 128) {
                 particles.push(new Particles((x + Math.random() * randomRatio) * 7, (y + Math.random() * randomRatio) * 7));
             }
@@ -44,11 +44,11 @@ img.onload = () => {
 
 var mouseX = null;
 var mouseY = null;
-var forceRatio = 300;
+var forceRatio = 250;
 
 function Particles(x, y) {
-    this.x = x;
-    this.y = y;
+    this.x = Math.random() * window.innerWidth;
+    this.y = Math.random() * window.innerHeight;
     this.originalX = x;
     this.originalY = y;
     this.targetX = x;
@@ -57,6 +57,7 @@ function Particles(x, y) {
     this.speedX = 0;
     this.speedY = 0;
     this.alpha = 1 - Math.random() * randomRatio;
+    this.alphaNow = 0;
 }
 
 Particles.prototype.update = function() {
@@ -65,7 +66,7 @@ Particles.prototype.update = function() {
 }
 
 Particles.prototype.draw = function() {
-    ctx.fillStyle = `rgba(173, 216, 230, ${this.alpha})`;
+    ctx.fillStyle = `rgba(173, 216, 230, ${this.alphaNow + 0.005 > this.alpha ? this.alpha : this.alphaNow += 0.005})`;
     ctx.fillRect(this.x, this.y, this.size, this.size);
 }
 
@@ -76,14 +77,13 @@ canvas.addEventListener('mousemove', function(e) {
 
 animateParticles = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
     for (particle of particles) {
-        if (mouseX !== null && mouseY !== null) {
-            var dToOriginalX = particle.x - particle.originalX;
-            var dToOriginalY = particle.y - particle.originalY;
-            particle.speedX = -dToOriginalX / 20;
-            particle.speedY = -dToOriginalY / 20;
 
+        var dToOriginalX = particle.x - particle.originalX;
+        var dToOriginalY = particle.y - particle.originalY;
+        particle.speedX = -dToOriginalX / 30;
+        particle.speedY = -dToOriginalY / 30;
+        if (mouseX !== null && mouseY !== null) {
             var dx = particle.x - mouseX;
             var dy = particle.y - mouseY;
             var distance = Math.sqrt(dx * dx + dy * dy);
