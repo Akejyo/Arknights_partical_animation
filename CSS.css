@@ -4,3 +4,20 @@ body {
     margin: 0;
     padding: 0;
 }
+
+.title {
+    color: #FFFFFF;
+    font-size: 2em;
+    text-align: center;
+    margin-top: 0;
+    padding-top: 0.5em;
+}
+
+.canvasBox {
+    display: inline-block;
+}
+
+#canvas,
+#list {
+    display: inline-block;
+}
