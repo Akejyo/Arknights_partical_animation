@@ -44,7 +44,8 @@ img.onload = () => {
 
 var mouseX = null;
 var mouseY = null;
-var forceRatio = 250;
+var forceRatio = 170;
+var dSpeedMax = 3;
 
 function Particles(x, y) {
     this.x = Math.random() * window.innerWidth;
@@ -88,12 +89,12 @@ animateParticles = () => {
             var dy = particle.y - mouseY;
             var distance = Math.sqrt(dx * dx + dy * dy);
             var force = 1 / distance;
-            force = Math.min(force, 5);
-
-            particle.speedX += dx / distance * force * forceRatio;
-            particle.speedY += dy / distance * force * forceRatio;
-            particle.speedX = Math.min(particle.speedX, 5);
-            particle.speedY = Math.min(particle.speedY, 5);
+            var dSpeedX = dx / distance * force * forceRatio;
+            var dSpeedY = dy / distance * force * forceRatio;
+            particle.speedX += dSpeedX;
+            particle.speedY += dSpeedY;
+            particle.speedX += dSpeedX < 0 ? Math.max(dSpeedX, -dSpeedMax) : Math.min(dSpeedX, dSpeedMax);
+            particle.speedY += dSpeedY < 0 ? Math.max(dSpeedY, -dSpeedMax) : Math.min(dSpeedY, dSpeedMax);
         }
         particle.update();
         particle.draw();
