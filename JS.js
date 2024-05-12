@@ -65,8 +65,8 @@ function convertImageToParticles(img) {
 
     for (particle of particles)
         particle.needed = false;
-    particles.sort(() => Math.random() - 0.5);
-    newParticles.sort(() => Math.random() - 0.5);
+    shuffle(newParticles);
+    shuffle(particles);
     for (var i = 0; i < newParticles.length; i++) {
         if (i >= particleCount) {
             particles.push(newParticles[i]);
@@ -153,7 +153,6 @@ function moveImg(img) {
         img.style.left = (imgX + speedX - img.width / 2) + 'px';
         img.style.top = (imgY + speedY - img.height / 2) + 'px';
     }
-
     aniId = requestAnimationFrame(() => moveImg(img));
 }
 
@@ -171,7 +170,6 @@ for (let i = 0; i < listItems.length; i++) {
         }
     });
     listItems[i].addEventListener('mouseleave', () => {
-
         var img = listItems[i].getElementsByTagName('img')[0];
         img.style.opacity = 0;
     });
@@ -214,3 +212,14 @@ animateParticles = () => {
 
 
 animateParticles();
+
+function shuffle(arr) {
+    var currentIndex = arr.length,
+        randomIndex;
+    while (currentIndex != 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+        [arr[currentIndex], arr[randomIndex]] = [arr[randomIndex], arr[currentIndex]];
+    }
+    return arr;
+}
