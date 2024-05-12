@@ -66,6 +66,7 @@ function convertImageToParticles(img) {
     for (particle of particles)
         particle.needed = false;
     particles.sort(() => Math.random() - 0.5);
+    newParticles.sort(() => Math.random() - 0.5);
     for (var i = 0; i < newParticles.length; i++) {
         if (i >= particleCount) {
             particles.push(newParticles[i]);
@@ -118,7 +119,7 @@ Particle.prototype.draw = function() {
 }
 
 Particle.prototype.disappear = function() {
-    ctx.fillStyle = `rgba(173, 216, 230, ${this.alphaNow - 0.005 < 0 ? 0 : this.alphaNow -= 0.005})`;
+    ctx.fillStyle = `rgba(173, 216, 230, ${this.alphaNow -= 0.01})`;
     ctx.fillRect(this.x, this.y, this.size, this.size);
 }
 
@@ -126,6 +127,55 @@ window.addEventListener('mousemove', function(e) {
     mouseX = e.clientX;
     mouseY = e.clientY;
 });
+
+//img follow mouse
+var imgSpeedRatio = 0.7;
+var listItems = document.getElementsByClassName("listItem");
+var aniId;
+var imgX, imgY;
+var lastX, laxtY;
+
+function moveImg(img) {
+    var rect = img.getBoundingClientRect(); //get the position of the img
+    imgX = rect.left + img.width / 2;
+    imgY = rect.top + img.height / 2;
+    var distanceX = mouseX - imgX;
+    var distanceY = mouseY - imgY;
+    var distance = Math.sqrt(Math.pow(distanceX, 2) + Math.pow(distanceY, 2));
+
+    var speedX = distanceX / Math.sqrt(distance) * imgSpeedRatio;
+    var speedY = distanceY / Math.sqrt(distance) * imgSpeedRatio;
+
+    if (lastX != undefined && lastY != undefined && img.style.opacity == 0) {
+        img.style.left = (lastX - img.width / 2) + 'px';
+        img.style.top = (lastY - img.height / 2) + 'px';
+    } else {
+        img.style.left = (imgX + speedX - img.width / 2) + 'px';
+        img.style.top = (imgY + speedY - img.height / 2) + 'px';
+    }
+
+    aniId = requestAnimationFrame(() => moveImg(img));
+}
+
+for (let i = 0; i < listItems.length; i++) {
+    listItems[i].addEventListener('mousemove', () => {
+        var img = listItems[i].getElementsByTagName('img')[0];
+        img.style.opacity = 0.7;
+        lastX = mouseX;
+        lastY = mouseY;
+        if (aniId === undefined) { //init
+            for (let j = 0; j < listItems.length; j++) {
+                var img = listItems[j].getElementsByTagName('img')[0];
+                moveImg(img);
+            }
+        }
+    });
+    listItems[i].addEventListener('mouseleave', () => {
+
+        var img = listItems[i].getElementsByTagName('img')[0];
+        img.style.opacity = 0;
+    });
+}
 
 animateParticles = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -161,5 +211,6 @@ animateParticles = () => {
 
     requestAnimationFrame(animateParticles);
 }
+
 
 animateParticles();
