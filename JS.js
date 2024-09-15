@@ -183,8 +183,8 @@ animateParticles = () => {
         particle.speedX = -dToOriginalX / 30;
         particle.speedY = -dToOriginalY / 30;
         if (mouseX !== null && mouseY !== null) {
-            var dx = particle.x - mouseX;
-            var dy = particle.y - mouseY;
+            var dx = particle.x - mouseX + canvas.getBoundingClientRect().left;
+            var dy = particle.y - mouseY + canvas.getBoundingClientRect().top;
             var distance = Math.sqrt(dx * dx + dy * dy);
             var force = 1 / distance;
             var dSpeedX = dx / distance * force * forceRatio;
