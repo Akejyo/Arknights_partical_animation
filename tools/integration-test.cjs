@@ -15,8 +15,13 @@ const assert=require('node:assert/strict');
     page.on('request',r=>{if(!['127.0.0.1','localhost', 'akejyo.github.io'].includes(new URL(r.url()).hostname)&&!r.url().startsWith('blob:')&&!r.url().startsWith('data:'))external.push(r.url());});
     await page.goto(process.env.DEMO_URL||'http://127.0.0.1:4175/Arknights_partical_animation/');
     const ready=async(name)=>{await page.waitForFunction(name=>{const s=document.querySelector('#status').textContent;return s.includes(name)&&s.includes('已就绪');},name,{timeout:16000});};
+    await ready('当前版');
+    const fallbackURL=new URL(page.url());fallbackURL.searchParams.set('renderer','v1.2.0');
+    await page.goto(fallbackURL.href);await ready('当前版');
+    assert.equal(new URL(page.url()).searchParams.get('renderer'),'v1.3.0');
     const options=await page.locator('#renderer option').evaluateAll(elements=>elements.map(e=>({id:e.value,name:e.textContent})));
-    assert.equal(options.length,8);
+    assert.equal(options.length,5);
+    assert.ok(options.every(o=>!['v1.0.0','v1.1.0','v1.2.0'].includes(o.id)));
     const verified=[];
     for(const option of options){
       await page.locator('#renderer').selectOption(option.id);await ready(option.name);
@@ -41,7 +46,7 @@ const assert=require('node:assert/strict');
       verified.push(option.id);console.log('PASS',option.id);
     }
     await page.locator('#renderer').selectOption('v1.3.0');await ready('当前版');
-    await page.locator('#cycle-renderer').click();await ready('自然转场');assert.equal(await page.locator('#renderer').inputValue(),'v1.2.0');
+    await page.locator('#cycle-renderer').click();await ready('原有优化版');assert.equal(await page.locator('#renderer').inputValue(),'optimized');
     for(let i=0;i<12;i++)await page.locator('#cycle-renderer').click();
     await page.locator('#renderer').selectOption('v1.3.0');await ready('当前版');
     await page.locator('[data-image="penguin"]').click();await ready('当前版 · 1.3.0 · 企鹅');
