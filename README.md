@@ -2,19 +2,19 @@
 
 明日方舟风格的图片粒子动画，以及原项目和历次重构版本的同图对比页面。
 
-线上入口保持不变：**https://akejyo.github.io/Arknights_partical_animation/**。
+**https://akejyo.github.io/Arknights_partical_animation/**。
 
 ## 切换渲染方式
 
 点击 **切换渲染方式 →** 可以循环切换，也可直接使用旁边的下拉菜单。当前图片会保留；不同版本保留各自的默认密度、点形状、转场和鼠标行为。
 
-| 方式 | 主要区别 |
-| --- | --- |
-| 当前版 1.3.0 | 自然回归、密集圆点、长距离作用、力度随图案缩放 |
-| 原有优化版 index_particle.js | 用户提供的亮度透明度、dt 补偿与原有回归算法 |
-| 原仓库 JS.js | 原始阈值采样、方点、按帧回归 |
-| 实验 JS_2.js | 原来的自由扩散实验 |
-| 实验 JS_3.js | 原来的弱回归与速度累积实验 |
+| 方式                         | 主要区别                                       |
+| ---------------------------- | ---------------------------------------------- |
+| 当前版 1.3.0                 | 自然回归、密集圆点、长距离作用、力度随图案缩放 |
+| 原有优化版 index_particle.js | 用户提供的亮度透明度、dt 补偿与原有回归算法    |
+| 原仓库 JS.js                 | 原始阈值采样、方点、按帧回归                   |
+| 实验 JS_2.js                 | 原来的自由扩散实验                             |
+| 实验 JS_3.js                 | 原来的弱回归与速度累积实验                     |
 
 选择下方图片可观察同一渲染器内的粒子切图。两个实验版没有原生图片重组 API，因此切图时重新初始化，其他三种会保留自己的切图逻辑。支持本地图片上传（不上传到服务器）、暂停、恢复和重新聚合。
 
@@ -53,9 +53,9 @@ npm run demo
 ```html
 <div id="particles" style="width:100%;height:480px"></div>
 <script type="module">
-  import { ParticleMorph } from './src/index.js';
-  const effect = new ParticleMorph('#particles');
-  effect.show('./assets/sami.webp').catch(console.error);
+  import { ParticleMorph } from "./src/index.js";
+  const effect = new ParticleMorph("#particles");
+  effect.show("./assets/sami.webp").catch(console.error);
   // 组件卸载时：effect.destroy();
 </script>
 ```
@@ -81,7 +81,3 @@ npm install --no-save playwright
 npx playwright install chromium
 npm run test:browser
 ```
-
-测试自动启动本地服务器，覆盖五种方式的绘制、切图、暂停恢复、快速切换、上传、图片选择保留、单 iframe 隔离和手机布局。也可设置 `DEMO_URL` 对线上 Pages 执行同一套检查。结果见 [整合测试记录](INTEGRATION-TEST-REPORT.md)。
-
-素材来源说明见 [NOTICE](docs/NOTICE.md)。萨米示例来自用户既有项目；公开分发与使用时应自行确认相应素材授权。原仓库没有新增或代指定开源许可证。
