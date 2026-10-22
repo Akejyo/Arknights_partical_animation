@@ -1,0 +1,13 @@
+{
+  "name": "@akejyo/particle-morph",
+  "version": "1.3.0",
+  "private": true,
+  "type": "module",
+  "description": "Image particle module with historical renderer comparison playground",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "exports": { ".": { "types": "./src/index.d.ts", "import": "./src/index.js", "default": "./src/index.js" } },
+  "files": ["src", "docs", "README.md"],
+  "scripts": { "demo": "node tools/serve.js", "test": "node --test test/sampling.test.js test/motion.test.js", "test:browser": "node tools/integration-test.cjs" },
+  "engines": { "node": ">=18" }
+}

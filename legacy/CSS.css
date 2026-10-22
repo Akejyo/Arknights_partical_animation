@@ -1,0 +1,41 @@
+body {
+    background-color: #000000;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.title {
+    color: #FFFFFF;
+    font-size: 2em;
+    text-align: center;
+    margin-top: 0;
+    padding-top: 0.5em;
+    transition: font-size 0.3s ease;
+    position: absolute;
+}
+
+.listItem {
+    min-height: 100px;
+    width: 500px;
+}
+
+.listItem:hover>.title {
+    font-size: 3em;
+}
+
+.listItem img {
+    position: absolute;
+    z-index: -1;
+    width: 100px;
+    opacity: 0;
+}
+
+.canvasBox {
+    display: inline-block;
+}
+
+#canvas,
+#list {
+    display: inline-block;
+}

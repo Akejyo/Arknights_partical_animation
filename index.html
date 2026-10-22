@@ -1,30 +1,19 @@
-<!DOCTYPE html>
-<html>
-<meta Permissions-Policy="interest-cohort=()">
-<link rel="stylesheet" type="text/css" href="CSS.css">
-
-<head>
-    <meta charset="utf-8">
-    <title>Arknights_particle_animation</title>
-</head>
-
-<body>
-    <div style="display: flex;">
-        <div id="canvasBox" style="width: 70%;margin: 5vh;">
-            <canvas id="canvas"></canvas>
-        </div>
-        <div id="list">
-            <div class="listItem">
-                <div class="title">AVATAR</div>
-                <img src="avatar.jpg" id="avatar" alt="avatar">
-            </div>
-            <div class="listItem">
-                <div class="title">PENGUIN</div>
-                <img src="xi_gua_ka.jpg" id="xi_gua_ka" alt="xi_gua_ka">
-            </div>
-        </div>
-    </div>
-</body>
-<script src="JS.js"></script>
-
-</html>
+<!doctype html>
+<html lang="zh-CN"><head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="明日方舟风格粒子动画实验室：对比原项目、优化版与历次重构版本。">
+  <title>Arknights Particle · 粒子渲染实验室</title><link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./style.css"><link rel="stylesheet" href="./app/playground.css">
+</head><body>
+  <header><a class="brand" href="./"><span class="mark">✳</span> PARTICLE / MORPH</a><a class="repository" href="https://github.com/Akejyo/Arknights_partical_animation">AKEJYO / SOURCE ↗</a></header>
+  <main>
+    <section class="renderer-controls" aria-label="渲染方式"><label for="renderer">渲染方式</label><select id="renderer"></select><button id="cycle-renderer">切换渲染方式 →</button><span id="renderer-position" class="renderer-position">01 / 08</span></section>
+    <section class="intro"><p class="eyebrow"><span></span> PARTICLE RENDERER ARCHIVE</p><h1>同一幅图，<br><em>不同的流动。</em></h1><p id="renderer-note" class="description"></p><p class="hint">选择图片，观察粒子如何重构。<br>切换渲染方式，对比不同版本的运动。</p><p class="version-label" id="version-label">1.3.0</p></section>
+    <section class="stage" aria-label="粒子动画演示"><div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div><div class="stage-top"><span id="renderer-name">LOADING</span><span class="badge">2D CANVAS</span></div><iframe id="renderer-frame" title="粒子渲染画布" src="about:blank"></iframe><div class="stage-bottom"><span id="stats">INITIALIZING</span><span>MOVE TO DISTURB ↗</span></div></section>
+    <nav class="scenes" id="scenes" aria-label="选择粒子图片"></nav>
+    <section class="controls" aria-label="演示控制"><label class="upload">＋ 使用自己的图片<input id="upload" type="file" accept="image/*"></label><button id="pause" aria-pressed="false">暂停动画</button><button id="restart">重新聚合</button><span class="control-note">每种方式保留自己的默认参数</span></section>
+    <p id="status" role="status" aria-live="polite">正在加载渲染器…</p>
+  </main>
+  <footer><span>原版与历次版本归档 · 同图对比 · GitHub Pages</span><a href="./README.md">使用说明 ↗</a></footer>
+  <script type="module" src="./app/playground.js"></script>
+</body></html>
